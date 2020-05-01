@@ -98,7 +98,7 @@ function addRole() {
             {
                 name: "title",
                 type: "input",
-                message: "What title would you like to add?"
+                message: "What title would you like to add?",
             },
             {
                 name: "salary",
@@ -198,55 +198,52 @@ function viewEmployees() {
 
 function updateRoles() {
     inquirer
-    .prompt([
-    {
-        name: "titleUpdate",
-        type: "input",
-        message: "What would you like to update the employee's role to?"
-        
-    },
-    {
-        name: "lastName",
-        type: "input",
-        message: "What is the last name of the employee that you want to role update for?"
-    },    
-    {
-        name: "firstName",
-        type: "input",
-        message: "What is the first name of the employee that you want to role update for?"  
-    }]).then(function(answer) {
-        var query = "SELECT * FROM employee UPDATE role SET (title = ? WHERE first_name = ? last_name = ?)";
-        connection.query(query, [answer.titleUpdate, answer.firstName, answer.lastName], function (err, results) {
-            if (err) throw err;
-            console.table(results);
-            start();
-    })
-  
-    })
+        .prompt([
+            
+            {
+                name: "roleUpdate",
+                type: "input",
+                message: "What role ID would you like to assign?"
+
+            },
+            {
+                name: "currentRole",
+                type: "input",
+                message: "What is the ID number of the employee to update?"
+
+            }
+           
+        ]).then(function (answer) {
+                var query = "UPDATE employee SET role_id = ? WHERE role_id = ?";
+                connection.query(query, [answer.roleUpdate, answer.currentRole], function (err, results) {
+                    if (err) throw err;
+                    console.table(results);
+                    start();
+                })
+
+            })
 
 }
 
 function deleteEmployee() {
     inquirer
-    .prompt([{
-        name: "firstName",
-        type: "input",
-        message: "What is the employee's first name?"
-    },
-    {
-        name: "lastName",
-        type: "input",
-        message: "What is the employee's last name?"
-    }
-]).then(function(answer) {
-    
-    var query = "DELETE FROM employee WHERE (first_name = ? last_name = ?)";
-    
-    connection.query(query, [answer.firstName, answer.lastName], function (err, results) {
-        if (err) throw err;
-        console.table(results);
-        start();
-})
-})
+        .prompt([{
+            name: "roleID",
+            type: "input",
+            message: "What is the employee's role ID?"
+        }
+        ]).then(function(answer) {
+
+            var query = "DELETE FROM employee WHERE role_id = ?";
+
+            console.log(answer.roleID);
+
+            connection.query(query, function (err, results) {
+                if (err) throw err;
+                console.table(results);
+                start();
+            }
+            )
+        })
 }
 
