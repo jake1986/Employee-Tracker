@@ -4,13 +4,10 @@ const inquirer = require("inquirer");
 const connection = mysql.createConnection({
     host: "localhost",
 
-    // Your port; if not 3306
     port: 3306,
 
-    // Your username
     user: "root",
 
-    // Your password
     password: "@rTyF1986",
     database: "employee_trackerDB"
 });
@@ -20,7 +17,6 @@ connection.connect(err => {
     console.log("connected as id " + connection.threadId);
 
     start();
-    // connection.end();
 });
 
 function start() {
@@ -36,7 +32,7 @@ function start() {
                 "View departments",
                 "View roles",
                 "View employees",
-                "Update employee roles",
+                "Update employee role",
                 "Delete employee",
                 "EXIT"
             ]
@@ -60,7 +56,7 @@ function start() {
                 case "View employees":
                     viewEmployees();
                     break;
-                case "Update employee roles":
+                case "Update employee role":
                     updateRoles();
                     break;
                 case "Delete employee":
@@ -204,9 +200,10 @@ function updateRoles() {
     inquirer
     .prompt([
     {
-        name: "firstName",
+        name: "titleUpdate",
         type: "input",
-        message: "What is the first name of the employee that you want to role update for?"
+        message: "What would you like to update the employee's role to?"
+        
     },
     {
         name: "lastName",
@@ -214,12 +211,12 @@ function updateRoles() {
         message: "What is the last name of the employee that you want to role update for?"
     },    
     {
-        name: "titleUpdate",
+        name: "firstName",
         type: "input",
-        message: "What would you like to update the employee's role to?"
+        message: "What is the first name of the employee that you want to role update for?"  
     }]).then(function(answer) {
-        var query = "SELECT * FROM employee UPDATE role SET title = " + answer.titleUpdate + "WHERE ?";
-        connection.query(query, function (err, results) {
+        var query = "SELECT * FROM employee UPDATE role SET (title = ? WHERE first_name = ? last_name = ?)";
+        connection.query(query, [answer.titleUpdate, answer.firstName, answer.lastName], function (err, results) {
             if (err) throw err;
             console.table(results);
             start();
@@ -241,14 +238,15 @@ function deleteEmployee() {
         type: "input",
         message: "What is the employee's last name?"
     }
-])
+]).then(function(answer) {
+    
+    var query = "DELETE FROM employee WHERE (first_name = ? last_name = ?)";
+    
+    connection.query(query, [answer.firstName, answer.lastName], function (err, results) {
+        if (err) throw err;
+        console.table(results);
+        start();
+})
+})
 }
 
-
-//   function getData() {
-//     connection.query("SELECT * FROM products", (err, res) => {
-//       if (err) throw err;
-//       console.log(res);
-//       console.log("First flavor: " + res[0].flavor);
-//     })
-//   }
