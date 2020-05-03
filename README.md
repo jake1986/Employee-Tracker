@@ -11,7 +11,7 @@ So that I can organize and plan my business
 Installation:
 node employeetracker.js
 
-**Built With:
+**Built With:**
 
 - MySQL NPM package to connect to your MySQL database and perform queries.
 
@@ -19,7 +19,7 @@ node employeetracker.js
 
 - Console.table to print MySQL rows to the console. I installed the console.table with npm i console.table, but preferred not to use the package.
 
-**Functionality:
+**Functionality:**
 
 The command-line application should allow users to:
 Add departments, roles, employees
@@ -30,6 +30,6 @@ Update employee roles
 
 Delete departments, roles, and employees
 
-**ADDITIONS TO BE MADE: 
+**ADDITIONS TO BE MADE:**
 
 There are additional features to be added such as creating quieries for users to delete departments, managers, and roles.
