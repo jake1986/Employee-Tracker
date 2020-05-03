@@ -1,6 +1,9 @@
+
+// dependencies
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 
+// create the connection information for the sql database
 const connection = mysql.createConnection({
     host: "localhost",
 
@@ -12,13 +15,15 @@ const connection = mysql.createConnection({
     database: "employee_trackerDB"
 });
 
+// connect to the mysql server and sql database
 connection.connect(err => {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
-
+      // run the start function after the connection is made to prompt the user
     start();
 });
 
+// function which prompts the user for what action they should take
 function start() {
     inquirer
         .prompt({
@@ -37,6 +42,10 @@ function start() {
                 "EXIT"
             ]
         }).then(function (answer) {
+              // Use the switch statement to select one of many code blocks to be executed.
+    // The switch statement evaluates an expression, matching the expression's value 
+    // to a case clause, and executes statements associated with that case, 
+    // as well as statements in cases that follow the matching case
             switch (answer.action) {
                 case "Add department":
                     addDepartment();
@@ -61,7 +70,7 @@ function start() {
                     break;
                 case "Delete employee":
                     deleteEmployee();
-                default:
+                case "EXIT":
                     connection.end();
                     break;
             }
@@ -102,12 +111,12 @@ function addRole() {
             },
             {
                 name: "salary",
-                type: "input",
+                type: "number",
                 message: "What is the starting salary?"
             },
             {
                 name: "departmentID",
-                type: "input",
+                type: "number",
                 message: "What is the department ID?"
             }
         ]).then(function (answer) {
@@ -118,7 +127,7 @@ function addRole() {
                     department_id: answer.departmentID
                 },
                 function (err) {
-                    if (err) throw err;
+                    // if (err) throw err;
                     console.log("Your role was created!!");
                     // re-prompt the user for if they want to bid or post
                     start();
@@ -143,12 +152,12 @@ function addEmployee() {
             },
             {
                 name: "roleID",
-                type: "input",
+                type: "number",
                 message: "What is your role ID?"
             },
             {
                 name: "managerID",
-                type: "input",
+                type: "number",
                 message: "What is your manager's ID?"
             }
         ]).then(function (answer) {
@@ -160,7 +169,7 @@ function addEmployee() {
                     manager_id: answer.managerID
                 },
                 function (err) {
-                    if (err) throw err;
+                    // if (err) throw err;
                     console.log("Employee was created!!");
                     // re-prompt the user for if they want to bid or post
                     start();
@@ -174,7 +183,6 @@ function addEmployee() {
 
 function viewDepartments() {
     connection.query("SELECT * FROM department", function (err, results) {
-        if (err) throw err;
         console.table(results);
         start();
     })
@@ -182,7 +190,6 @@ function viewDepartments() {
 
 function viewRoles() {
     connection.query("SELECT * FROM role", function (err, results) {
-        if (err) throw err;
         console.table(results);
         start();
     })
@@ -190,7 +197,6 @@ function viewRoles() {
 
 function viewEmployees() {
     connection.query("SELECT * FROM employee", function (err, results) {
-        if (err) throw err;
         console.table(results);
         start();
     })
@@ -202,21 +208,26 @@ function updateRoles() {
             
             {
                 name: "roleUpdate",
-                type: "input",
+                type: "number",
                 message: "What role ID would you like to assign?"
 
             },
             {
-                name: "currentRole",
+                name: "firstName",
                 type: "input",
-                message: "What is the ID number of the employee to update?"
+                message: "What is the employee's first name?"
+
+            },
+            {
+                name: "lastName",
+                type: "input",
+                message: "What is the employee's last name?"
 
             }
            
         ]).then(function (answer) {
-                var query = "UPDATE employee SET role_id = ? WHERE role_id = ?";
-                connection.query(query, [answer.roleUpdate, answer.currentRole], function (err, results) {
-                    if (err) throw err;
+                var query = "UPDATE employee SET role_id = ? WHERE first_name = ? AND last_name = ?";
+                connection.query(query, [answer.roleUpdate, answer.firstName, answer.secondName], function (results, err) {
                     console.table(results);
                     start();
                 })
@@ -228,22 +239,18 @@ function updateRoles() {
 function deleteEmployee() {
     inquirer
         .prompt([{
-            name: "roleID",
-            type: "input",
-            message: "What is the employee's role ID?"
+            name: "id",
+            type: "number",
+            message: "What is the employee's ID?"
         }
         ]).then(function(answer) {
+            var query = "DELETE FROM employee WHERE id = ?";
 
-            var query = "DELETE FROM employee WHERE role_id = ?";
-
-            console.log(answer.roleID);
-
-            connection.query(query, function (err, results) {
-                if (err) throw err;
+            connection.query(query, answer.id, function (results, err) {
+                console.log("Employee successfully removed!")
                 console.table(results);
                 start();
             }
             )
         })
 }
-
