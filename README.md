@@ -32,4 +32,4 @@ Add departments, roles, employees
 
 **ADDITIONS TO BE MADE:**
 
-There are additional features to be added such as creating quieries for users to delete departments, managers, and roles.
+There are additional features to be added such as creating quieries for users to delete departments, managers, and roles, etc.
