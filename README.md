@@ -21,14 +21,14 @@ node employeetracker.js
 
 **Functionality:**
 
-The command-line application should allow users to:
+- The command-line application should allow users to:
 Add departments, roles, employees
 
-View departments, roles, employees
+- View departments, roles, employees
 
-Update employee roles
+- Update employee roles
 
-Delete departments, roles, and employees
+- Delete departments, roles, and employees
 
 **ADDITIONS TO BE MADE:**
 
