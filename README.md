@@ -8,14 +8,16 @@ Developers are often tasked with creating interfaces that make it easy for non-d
 As a business owner
 I want to be able to view and manage the departments, roles, and employees in my company
 So that I can organize and plan my business
-Installation:
-node employeetracker.js
+
+**Installation:**
+
+- node tracker.js
 
 **Built With:**
 
 - MySQL NPM package to connect to your MySQL database and perform queries.
 
-- InquirerJs NPM package to interact with the user via the command-line.
+- Inquirer NPM package to interact with the user via the command-line.
 
 - Console.table to print MySQL rows to the console. I installed the console.table with npm i console.table, but preferred not to use the package.
 
