@@ -212,22 +212,17 @@ function updateRoles() {
                 message: "What role ID would you like to assign?"
 
             },
-            {
-                name: "firstName",
-                type: "input",
-                message: "What is the employee's first name?"
 
-            },
             {
-                name: "lastName",
-                type: "input",
-                message: "What is the employee's last name?"
-
+                name: "employeeID",
+                type: "number",
+                message: "What is the employee ID?"
             }
            
         ]).then(function (answer) {
-                var query = "UPDATE employee SET role_id = ? WHERE first_name = ? AND last_name = ?";
-                connection.query(query, [answer.roleUpdate, answer.firstName, answer.secondName], function (results, err) {
+                var query = "UPDATE employee SET role_id = ? WHERE id = ?";
+                connection.query(query, [answer.roleUpdate, answer.employeeID], function (err, results) {
+                    if (err) throw err;
                     console.table(results);
                     start();
                 })
@@ -246,7 +241,8 @@ function deleteEmployee() {
         ]).then(function(answer) {
             var query = "DELETE FROM employee WHERE id = ?";
 
-            connection.query(query, answer.id, function (results, err) {
+            connection.query(query, answer.id, function (err, results) {
+                if (err) throw err;
                 console.log("Employee successfully removed!")
                 console.table(results);
                 start();
