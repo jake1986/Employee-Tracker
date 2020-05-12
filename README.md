@@ -34,4 +34,8 @@ Add departments, roles, employees
 
 **ADDITIONS TO BE MADE:**
 
-There are additional features to be added such as creating quieries for users to delete departments, managers, and roles, etc.
+- There are additional features to be added such as creating quieries for users to delete departments, managers, and roles, etc.
+
+**GitDuck APP Walk-Through**
+ - https://gitduck.com/watch/5eb8c1c2686158b10475676d
+
